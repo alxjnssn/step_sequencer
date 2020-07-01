@@ -5,7 +5,7 @@ let bpm = 120;
 let active = false;
 let output = false;
 let intervalID = null;
-let selectedScale = null;
+let selectedScale = 0;
 let scales = [
   // Lydian Augmented Scale
   [262,294,330,370,415,440,494,523]
@@ -35,9 +35,9 @@ const populateSequence = (steps, gates, frequencies) => {
 
 const initSequence = () => {
     populateSequence(steps, mainSequenceGates, mainSequenceFrequencies);
-    const milliseconds = 100;
+    const oneSecond = 1000;
     const secondsInAMinute = 60;
-    const delay = milliseconds / (bpm / secondsInAMinute) ;
+    const delay = ((1 / (bpm / secondsInAMinute)) * oneSecond) * (4 / steps);
     sequenceIndex = 0;
     reset = 0;
     
@@ -93,17 +93,11 @@ const generateRandomSequence = () => {
         }
     })
     newFrequencies.forEach(frequency => {
-        const onOrOff = Math.random();
+        const noteIndex = Math.floor(Math.random() * scales[selectedScale].length) + 0;
+        frequency = scales[selectedScale][noteIndex];
 
-        if (onOrOff <= 0.5) {
-            frequency = 440;
-            mainSequenceFrequencies.shift();
-            mainSequenceFrequencies.push(frequency)
-        } else {
-            frequency = 550;
-            mainSequenceFrequencies.shift();
-            mainSequenceFrequencies.push(frequency)
-        }
+        mainSequenceFrequencies.shift();
+        mainSequenceFrequencies.push(frequency)
     })
     console.log(mainSequenceGates, mainSequenceFrequencies);
 }

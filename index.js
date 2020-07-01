@@ -5,6 +5,11 @@ let bpm = 120;
 let active = false;
 let output = false;
 let intervalID = null;
+let selectedScale = null;
+let scales = [
+  // Lydian Augmented Scale
+  [262,294,330,370,415,440,494,523]
+]
 
 const init = () => {
     initSequence();

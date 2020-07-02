@@ -1,3 +1,13 @@
+/* 
+████████╗██╗  ██╗███████╗    ██╗    ██╗██╗███████╗ █████╗ ██████╗ ██████╗ ███████╗    ██████╗  █████╗ ████████╗██╗  ██╗
+╚══██╔══╝██║  ██║██╔════╝    ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██╔══██╗██╔══██╗╚══██╔══╝██║  ██║
+   ██║   ███████║█████╗      ██║ █╗ ██║██║  ███╔╝ ███████║██████╔╝██║  ██║███████╗    ██████╔╝███████║   ██║   ███████║
+   ██║   ██╔══██║██╔══╝      ██║███╗██║██║ ███╔╝  ██╔══██║██╔══██╗██║  ██║╚════██║    ██╔═══╝ ██╔══██║   ██║   ██╔══██║
+   ██║   ██║  ██║███████╗    ╚███╔███╔╝██║███████╗██║  ██║██║  ██║██████╔╝███████║    ██║     ██║  ██║   ██║   ██║  ██║
+   ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝    ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝
+   By: Alexander James Janssen                                                                                                                     
+*/
+
 let steps = 16;
 let mainSequenceGates = [];
 let mainSequenceFrequencies = [];
@@ -7,6 +17,9 @@ let activeGates = [];
 let modifiedFrequencies = [];
 let lastStepModified = 0;
 let bpm = 120;
+let oneSecond = 1000;
+let secondsInAMinute = 60;
+let delay = ((1 / (bpm / secondsInAMinute)) * oneSecond) * (4 / steps);
 let active = false;
 let output = null;
 let intervalID = null;
@@ -43,9 +56,6 @@ const populateSequence = (steps, gates, frequencies) => {
 
 const initSequence = () => {
   populateSequence(steps, mainSequenceGates, mainSequenceFrequencies);
-  const oneSecond = 1000;
-  const secondsInAMinute = 60;
-  const delay = ((1 / (bpm / secondsInAMinute)) * oneSecond) * (4 / steps);
   sequenceIndex = 0;
   reset = 0;
   
@@ -67,7 +77,7 @@ const stepSequence = () => {
 const initDisplay = () => {
   setInterval(() => {
     refreshDisplay();
-  }, 1);
+  }, delay);
 }
 
 const refreshDisplay = () => {
@@ -81,7 +91,7 @@ const initControls = () => {
 
 const armModifySequenceElement = () => {
   populateSequence(steps, alternateSequenceGates, alternateSequenceFrequencies)
-  modifyRangeElement.addEventListener('click', modifyCurrentSequence);
+  modifyRangeElement.addEventListener('change', modifyCurrentSequence);
 }
 
 const modifyCurrentSequence = event => {
@@ -103,7 +113,7 @@ const modifyCurrentSequence = event => {
   }
 
   if (lastStepModified < event.target.value) {
-    
+
     for (let i = 0; i <= event.target.value - 1; i++) {
       frequencyToModify = activeGates[i];
 
@@ -121,6 +131,7 @@ const modifyCurrentSequence = event => {
   }
 
   console.log(mainSequenceFrequencies);
+  console.log(modifyRangeElement.value)
 }
 
 const shuffle = array => {

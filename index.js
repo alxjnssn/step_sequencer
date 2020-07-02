@@ -1,5 +1,5 @@
 /* 
-   *   '*
+   *   '*                                                                                                TWP-100-2020
            *                                                    '      *    
                 *                                   *         '             '               '
                        *
@@ -115,7 +115,9 @@ const initControls = () => {
 
 const armModifySequenceElement = () => {
   populateSequence(steps, alternateSequenceGates, alternateSequenceFrequencies)
-  modifyRangeElement.addEventListener('change', modifyCurrentSequence);
+  modifyRangeElement.addEventListener('input', event => {
+      modifyCurrentSequence(event);
+  });
 }
 
 const modifyCurrentSequence = event => {
@@ -124,30 +126,21 @@ const modifyCurrentSequence = event => {
   }
 
   if (lastStepModified > event.target.value) {
-    for (let i = 1; i <= lastStepModified - event.target.value; i++) {
-      frequencyLocationToPutBack = activeGates[i];
-      frequencyToPutBack = modifiedFrequencies[i];
-      mainSequenceFrequencies[frequencyLocationToPutBack] = modifiedFrequencies[modifiedFrequencies.length - 1]; 
+    frequencyLocationToPutBack = activeGates[lastStepModified];
+    frequencyToPutBack = modifiedFrequencies[modifiedFrequencies.length - 1];
+    mainSequenceFrequencies[frequencyLocationToPutBack] = modifiedFrequencies[modifiedFrequencies.length - 1]; 
 
-      modifiedFrequencies.pop();
-    }
+    modifiedFrequencies.pop();
 
     console.log(modifiedFrequencies);
     lastStepModified = event.target.value;
   }
 
   if (lastStepModified < event.target.value) {
+    frequencyToModify = activeGates[event.target.value - 1];
 
-    for (let i = 0; i <= event.target.value - 1; i++) {
-      frequencyToModify = activeGates[i];
-
-      if (mainSequenceFrequencies[frequencyToModify] === alternateSequenceFrequencies[frequencyToModify]) {
-        continue;
-      } else {
-        modifiedFrequencies.push(mainSequenceFrequencies[frequencyToModify]);
-        mainSequenceFrequencies[frequencyToModify] = alternateSequenceFrequencies[frequencyToModify]; 
-      }
-    }
+    modifiedFrequencies.push(mainSequenceFrequencies[frequencyToModify]);
+    mainSequenceFrequencies[frequencyToModify] = alternateSequenceFrequencies[frequencyToModify]; 
     
     mainSequenceFrequencies[frequencyToModify] = alternateSequenceFrequencies[frequencyToModify];  
     lastStepModified = event.target.value;

@@ -1,5 +1,5 @@
 /* 
-   *   '*                                                                                                TWP-100-2020
+   *   '*                             
            *                                                    '      *    
                 *                                   *         '             '               '
                        *
@@ -28,6 +28,7 @@
    ██║   ██║  ██║███████╗    ╚███╔███╔╝██║███████╗██║  ██║██║  ██║██████╔╝███████║    ██║     ██║  ██║   ██║   ██║  ██║
    ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝    ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝
    By: Alexander James Janssen
+   TWP-100-2020
 */
 
 let steps = 16;
@@ -124,9 +125,9 @@ const modifyCurrentSequence = event => {
   if (lastStepModified === event.target.value) {
     return;
   }
-
+  
   if (lastStepModified > event.target.value) {
-    frequencyLocationToPutBack = activeGates[lastStepModified];
+    frequencyLocationToPutBack = activeGates[lastStepModified - 1];
     frequencyToPutBack = modifiedFrequencies[modifiedFrequencies.length - 1];
     mainSequenceFrequencies[frequencyLocationToPutBack] = modifiedFrequencies[modifiedFrequencies.length - 1]; 
 

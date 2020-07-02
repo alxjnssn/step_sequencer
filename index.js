@@ -31,7 +31,7 @@
    TWP-100-2020
 */
 
-let steps = 16;
+let steps = 12;
 let mainSequenceGates = [];
 let mainSequenceFrequencies = [];
 let alternateSequenceGates = [];
@@ -46,6 +46,8 @@ let delay = ((1 / (bpm / secondsInAMinute)) * oneSecond) * (4 / steps);
 let active = false;
 let output = null;
 let intervalID = null;
+let octave = [1, 2, 4, 8];
+let selectedOctave = 0;
 let selectedScale = 0;
 let scales = [
   // Lydian Augmented Scale
@@ -207,7 +209,7 @@ const generateNewFrequencies = (fromArray, toArray) => {
     element = scales[selectedScale][noteIndex];
 
     toArray.shift();
-    toArray.push(element)
+    toArray.push(element / octave[selectedOctave])
   })
 }
 

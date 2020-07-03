@@ -62,10 +62,8 @@ const modifyRangeElement = document.getElementById('modify-sequence');
 const display = document.getElementById('output-display');
 
 const init = () => {
-  initSequence();
-  initDisplay();
+  initDisplay()
   initControls()
-  active = true;
   console.log({
     steps,
     mainSequenceGates,
@@ -95,7 +93,7 @@ const initSequence = () => {
 
 const stepSequence = () => {
   output = [mainSequenceGates[sequenceIndex], mainSequenceFrequencies[sequenceIndex]];
-
+  console.log(mainSequenceFrequencies[sequenceIndex], sequenceIndex);
   if (sequenceIndex === steps - 1)
     sequenceIndex = reset;
   else {
@@ -114,9 +112,15 @@ const refreshDisplay = () => {
 }
 
 const initControls = () => {
+  armStartSequenceElement();
   armRandomSequenceElement();
   armModifySequenceElement();
   armSequenceStepsElement();
+}
+
+const armStartSequenceElement = () => {
+  const startSequenceElement = document.getElementById('start-sequence');
+  startSequenceElement.addEventListener('click', initSequence);
 }
 
 const armSequenceStepsElement = () => {
@@ -127,7 +131,7 @@ const armSequenceStepsElement = () => {
 }
 
 const updateSequenceSteps = (event) => {
-  steps = event.target.value;
+  steps = parseInt(event.target.value);
 }
 
 const armModifySequenceElement = () => {
@@ -186,7 +190,7 @@ const generateRandomSequence = () => {
   let newFrequencies = [];
   let newAlternateGates = [];
   let newAlternateFrequencies = [];
-  
+
   populateSequence(steps, newGates, newFrequencies)
   populateSequence(steps, newAlternateGates, newAlternateFrequencies)
 
@@ -198,7 +202,7 @@ const generateRandomSequence = () => {
 
   currentActiveGates();
 
-  console.log(mainSequenceGates, mainSequenceFrequencies);
+  console.log(mainSequenceGates, mainSequenceFrequencies, steps);
 }
 
 const generateNewGates = (fromArray, toArray) => {

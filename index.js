@@ -53,7 +53,9 @@ let scales = [
   // Lydian Augmented Scale
   [262,294,330,370,415,440,494,523],
   // Hirajoshi Scale
-  [262,311,349,415,466,523]
+  [262,311,349,415,466,523],
+  // Phrygian Dominant Scale
+  [262,311,330,349,392,466,466,523]
 ]
 
 const modifyRangeElement = document.getElementById('modify-sequence');

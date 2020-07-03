@@ -31,7 +31,7 @@
    TWP-100-2020
 */
 
-let steps = 12;
+let steps = 16;
 let mainSequenceGates = [];
 let mainSequenceFrequencies = [];
 let alternateSequenceGates = [];
@@ -116,6 +116,18 @@ const refreshDisplay = () => {
 const initControls = () => {
   armRandomSequenceElement();
   armModifySequenceElement();
+  armSequenceStepsElement();
+}
+
+const armSequenceStepsElement = () => {
+  const modifyStepsElement = document.getElementById('modify-steps');
+  modifyStepsElement.addEventListener('input', event => {
+    updateSequenceSteps(event);
+  });
+}
+
+const updateSequenceSteps = (event) => {
+  steps = event.target.value;
 }
 
 const armModifySequenceElement = () => {

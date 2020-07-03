@@ -93,7 +93,7 @@ const initSequence = () => {
 
 const stepSequence = () => {
   output = [mainSequenceGates[sequenceIndex], mainSequenceFrequencies[sequenceIndex]];
-  console.log(mainSequenceFrequencies[sequenceIndex], sequenceIndex);
+
   if (sequenceIndex === steps - 1)
     sequenceIndex = reset;
   else {
@@ -131,7 +131,7 @@ const armSequenceStepsElement = () => {
 }
 
 const updateSequenceSteps = (event) => {
-  steps = parseInt(event.target.value);
+  steps = parseInt(event.target.value) * 2;
 }
 
 const armModifySequenceElement = () => {

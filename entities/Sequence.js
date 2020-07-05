@@ -12,7 +12,11 @@ class Sequence {
     this.frequecyHistory = []
     this.gateHistory = []
     this.activeGates = []
+    this.modifiedFrequencies = [];
+    this.frequencyToModify = 0;
+    this.frequencyLocationToPutBack = 0;
     this.lastStepModified = 0;
+    this.frequencyToPutBack = 0;
   }
 
   randomizeGates() {
@@ -32,18 +36,41 @@ class Sequence {
   }
 
   swapAlternateFrequency(index) {
-    let frequencyStore = this.frequencies[this.activeGates[index === 0 ? index : index - 1]];
-    this.frequencies[this.activeGates[index - 1]] = this.alternateFrequencies[this.activeGates[index - 1]]
-    this.alternateFrequencies[this.activeGates[index - 1]] = frequencyStore
-    this.lastStepModified = index === 0 ? index : index - 1
+    if (this.lastStepModified === index) {
+      return;
+    }
+    
+    if (this.lastStepModified > index) {
+      this.frequencyLocationToPutBack = this.activeGates[this.lastStepModified - 1];
+      this.frequencyToPutBack = this.modifiedFrequencies[this.modifiedFrequencies.length - 1];
+      this.frequencies[this.frequencyLocationToPutBack] = this.modifiedFrequencies[this.modifiedFrequencies.length - 1]; 
+  
+      this.modifiedFrequencies.pop();
+  
+      console.log(this.modifiedFrequencies);
+      this.lastStepModified = index;
+    }
+  
+    if (this.lastStepModified < index) {
+      this.frequencyToModify = this.activeGates[index - 1];
+  
+      this.modifiedFrequencies.push(this.frequencies[this.frequencyToModify]);
+      this.frequencies[this.frequencyToModify] = this.alternateFrequencies[this.frequencyToModify]; 
+      
+      this.frequencies[this.frequencyToModify] = this.alternateFrequencies[this.frequencyToModify];  
+      this.lastStepModified = index;
+      console.log(this.modifiedFrequencies);
+    }
+  
+    console.log(this.frequencies);
 
-    console.log(`
-      lastStepModified: ${this.lastStepModified}
-      activeGates: ${this.activeGates}
-      frequencyStore: ${frequencyStore}
-      frequency: ${this.frequencies}
-      alternate: ${this.alternateFrequencies}
-    `);
+    // console.log(`
+    //   lastStepModified: ${this.lastStepModified}
+    //   activeGates: ${this.activeGates}
+    //   frequencyStore: ${frequencyStore}
+    //   frequency: ${this.frequencies}
+    //   alternate: ${this.alternateFrequencies}
+    // `);
   }
 
   setActiveGates() {

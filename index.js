@@ -48,7 +48,7 @@ const mainSequence = new Sequence(steps, delay)
 const alternateSequence = new Sequence(steps, delay)
 
 const OCTAVES = [1, 2, 4, 8];
-const SELECTED_OCTAVE = 0;
+const SELECTED_OCTAVE = 1;
 const octave = OCTAVES[SELECTED_OCTAVE]
 
 const SELECTED_SCALE = 0;
@@ -66,8 +66,8 @@ const modifyRangeElement = document.getElementById('modify-sequence');
 const display = document.getElementById('output-display');
 
 const init = () => {
-  initControls()
   initOscillator();
+  initControls()
   console.log(
     steps,
     mainSequence.gates,
@@ -90,10 +90,13 @@ const initControls = () => {
 
 const armStartSequenceElement = () => {
   const startSequenceElement = document.getElementById('start-sequence');
-  startSequenceElement.addEventListener('click', () => mainSequence.start((gate, freq) => {
-    updateOscillator(gate, freq)
-    refreshDisplay(`${gate}, ${freq}`)
-  }));
+  startSequenceElement.addEventListener('click', () => {
+    oscillator.start();
+    mainSequence.start((gate, freq) => {
+      updateOscillator(gate, freq)
+      refreshDisplay(`${gate}, ${freq}`)
+    })
+  });
 }
 
 const armSequenceStepsElement = () => {

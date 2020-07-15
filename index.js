@@ -48,12 +48,12 @@ const mainSequence = new Sequence(steps, delay)
 const alternateSequence = new Sequence(steps, delay)
 
 const OCTAVES = [1, 2, 4, 8];
-const SELECTED_OCTAVE = 1;
+const SELECTED_OCTAVE = 0;
 const octave = OCTAVES[SELECTED_OCTAVE]
 
 const SELECTED_SCALE = 0;
 const SCALES = [
-  new Scale('Lydian Augmented Scale'),
+  new Scale('Hirajoshi Scale'),
 ]
 
 const scale = SCALES[SELECTED_SCALE]
@@ -63,6 +63,7 @@ const oscillator = new OscillatorNode(audioCtx);
 const gainNode = new GainNode(audioCtx);
 
 const modifyRangeElement = document.getElementById('modify-sequence');
+const modifyGateRangeElement = document.getElementById('modify-gates');
 const display = document.getElementById('output-display');
 
 const init = () => {
@@ -86,6 +87,7 @@ const initControls = () => {
   armRandomSequenceElement();
   armModifySequenceElement();
   armSequenceStepsElement();
+  armModifyGateSequenceElement();
 }
 
 const armStartSequenceElement = () => {
@@ -120,6 +122,16 @@ const modifyCurrentSequence = event => {
   mainSequence.swapAlternateFrequency(parseInt(event.target.value));
 }
 
+const armModifyGateSequenceElement = () => {
+  modifyGateRangeElement.addEventListener('input', event => {
+    modifyCurrentGateSequence(event);
+  });
+}
+
+const modifyCurrentGateSequence = event => {
+  mainSequence.swapAlternateGates(parseInt(event.target.value));
+}
+
 const armRandomSequenceElement = () => {
   const randomButtonElement = document.getElementById('random-sequence');
   randomButtonElement.addEventListener('click', generateRandomSequence);
@@ -129,6 +141,7 @@ const generateRandomSequence = () => {
   mainSequence.randomizeFrequencies(scale, octave)
   mainSequence.randomizeGates()
   modifyRangeElement.max = mainSequence.activeGates.length;
+  modifyGateRangeElement.max = mainSequence.closedGates.length;
 
   console.log(mainSequence.gates, mainSequence.frequencies, steps);
 }

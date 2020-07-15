@@ -12,11 +12,13 @@ class Sequence {
     this.frequecyHistory = []
     this.gateHistory = []
     this.activeGates = []
+    this.closedGates = [];
     this.modifiedFrequencies = [];
     this.frequencyToModify = 0;
     this.frequencyLocationToPutBack = 0;
-    this.lastStepModified = 0;
     this.frequencyToPutBack = 0;
+    this.lastStepModified = 0;
+    this.lastGateStepModified = 0;
   }
 
   randomizeGates() {
@@ -61,26 +63,39 @@ class Sequence {
       this.lastStepModified = index;
       console.log(this.modifiedFrequencies);
     }
-  
-    console.log(this.frequencies);
+  }
 
-    // console.log(`
-    //   lastStepModified: ${this.lastStepModified}
-    //   activeGates: ${this.activeGates}
-    //   frequencyStore: ${frequencyStore}
-    //   frequency: ${this.frequencies}
-    //   alternate: ${this.alternateFrequencies}
-    // `);
+  swapAlternateGates(index) {
+    if (index === 0) {
+      return;
+    }
+    
+    if (this.lastGateStepModified > index) {
+      this.gates[this.closedGates[index - 1]] = 0;
+      console.log(this.gates);
+      this.lastGateStepModified = index;
+    }
+
+    if (this.lastGateStepModified < index) {
+      this.gates[this.closedGates[index - 1]] = 1;
+      console.log(this.gates);
+      this.lastGateStepModified = index;
+    }
+    console.log(this.closedGates, this.gates)
   }
 
   setActiveGates() {
     this.gates.forEach((gate, index) => {
       if (gate === 1) {
+        console.log(index, "open")
         this.activeGates.push(index)
+      } else {
+        console.log(index, "closed")
+        this.closedGates.push(index)
       }
     })
     this.activeGates = shuffle(this.activeGates);
-    console.log(this.activeGates)
+    this.closedGates = shuffle(this.closedGates);
   }
 
   resetFreq(stepsBack) {

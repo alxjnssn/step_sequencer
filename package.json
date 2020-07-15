@@ -19,5 +19,8 @@
   "homepage": "https://github.com/alxjnssn/step_sequencer#readme",
   "dependencies": {
     "entities": "^2.0.3"
+  },
+  "devDependencies": {
+    "cssnano": "^4.1.10"
   }
 }

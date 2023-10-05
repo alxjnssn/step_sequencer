@@ -21,6 +21,6 @@
     "entities": "^2.0.3"
   },
   "devDependencies": {
-    "cssnano": "^4.1.10"
+    "cssnano": "^6.0.1"
   }
 }
